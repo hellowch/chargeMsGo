@@ -10,12 +10,11 @@ var Engine *gin.Engine
 
 func InitRouter() {
 	Engine := gin.Default()
-	Engine.Use(middleware.RequestInfos())
+	Engine.Use(middleware.RequestInfos(),middleware.Cors())
 
 	//user 路由组
-	user := Engine.Group("/user")
-	user.GET("/selectUserById", controller.SelectUserById)
-	user.POST("/gormInsertData", controller.GormInsertData)
+	user := Engine.Group("/api")
+	user.POST("/login",controller.UserLogin)
 
 	Engine.Run(":3000")
 

@@ -3,7 +3,6 @@ package database
 import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 	"time"
 )
 
@@ -11,12 +10,12 @@ var Db *gorm.DB
 
 func init() {
 	var err error
-	dsn := "root:123456@tcp(weichenhao.cn:3310)/account?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:123456@tcp(weichenhao.cn:3310)/chargeMs?charset=utf8mb4&parseTime=True&loc=Local"
 	Db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			TablePrefix:   "tb_", // 表名前缀，`User` 的表名应该是 `tb_users`
-			SingularTable: true,  // 使用单数表名，启用该选项，此时，`User` 的表名应该是 `tb_user`
-		},
+		//NamingStrategy: schema.NamingStrategy{
+		//	TablePrefix:   "tb_", // 表名前缀，`User` 的表名应该是 `tb_users`
+		//	SingularTable: true,  // 使用单数表名，启用该选项，此时，`User` 的表名应该是 `tb_user`
+		//},
 	})
 	if err != nil {
 		panic(err.Error())
