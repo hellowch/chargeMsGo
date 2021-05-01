@@ -17,6 +17,9 @@ func InitRouter() {
 	user.POST("/login",controller.UserLogin)
 	user.POST("/register",controller.UserRegister)
 
+	car := Engine.Group("/carApi")
+	car.GET("/getUserCar",controller.CarUserCar)
+
 	Engine.Run(":3000")
 
 }

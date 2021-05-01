@@ -22,7 +22,7 @@ func UserLogin(ctx *gin.Context) models.Result {
 		}()
 		user := models.User{}
 		ctx.ShouldBind(&user)
-		tx := database.Db.Raw("SELECT id,name,phoneNumber,carId,cellId FROM user WHERE username = ? and password = ?", user.Username,user.Password).Scan(&user)
+		tx := database.Db.Raw("SELECT id,name,phoneNumber,carid,cellid,avatar FROM user WHERE username = ? and password = ?", user.Username,user.Password).Scan(&user)
 		if tx.Error != nil {
 			result.Code = http.StatusBadRequest
 			result.Message = "错误"
