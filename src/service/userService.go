@@ -34,3 +34,29 @@ func UserLogin(ctx *gin.Context) models.Result {
 		result.Data = user
 		return result
 }
+
+func UserRegister(ctx *gin.Context) models.Result {
+	//捕获异常
+	defer func() {
+		err := recover()
+		if err != nil {
+			result.Code = http.StatusBadRequest
+			result.Message = "错误1"
+			result.Data = err
+			return
+		}
+	}()
+	user := models.User{}
+	ctx.ShouldBind(&user)
+	tx := database.Db.Exec("INSERT INTO user(name,username,password,phoneNumber,avatar) VALUES (?,?,?,?,?);",user.Name,user.Username,user.Password,user.PhoneNumber,user.Avatar)
+	if tx.Error != nil {
+		result.Code = http.StatusBadRequest
+		result.Message = "错误"
+		result.Data = tx.Error
+		return result
+	}
+	result.Code = http.StatusOK
+	result.Message = "插入成功"
+	result.Data = tx.RowsAffected
+	return result
+}

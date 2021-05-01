@@ -15,6 +15,7 @@ func InitRouter() {
 	//user 路由组
 	user := Engine.Group("/api")
 	user.POST("/login",controller.UserLogin)
+	user.POST("/register",controller.UserRegister)
 
 	Engine.Run(":3000")
 
