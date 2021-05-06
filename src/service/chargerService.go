@@ -3,7 +3,6 @@ package service
 import (
 	"chargeMsGo/src/database"
 	"chargeMsGo/src/models"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -23,7 +22,6 @@ func GetCharger(ctx *gin.Context) models.Result {
 	charger := make([]models.Charger,0)
 	id := ctx.DefaultQuery("id", "nil")
 	tx := database.Db.Debug().Raw("SELECT id,address,distance,usetype,details FROM charger WHERE id = ?", id).Find(&charger)
-	fmt.Println(charger)
 	if tx.Error != nil {
 		result.Code = http.StatusBadRequest
 		result.Message = "错误"

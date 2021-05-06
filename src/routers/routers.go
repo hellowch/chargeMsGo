@@ -30,6 +30,10 @@ func InitRouter() {
 	cell := Engine.Group("/cell")
 	cell.GET("/getCell",controller.GetCell)
 
+	community := Engine.Group("/community")
+	community.GET("/getCommunity", controller.GetCommunity)
+	community.POST("/setCommunity", controller.SetCommunity)
+
 	Engine.Run(":3000")
 
 }
