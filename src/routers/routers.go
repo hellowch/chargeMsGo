@@ -27,6 +27,9 @@ func InitRouter() {
 	charger.GET("/getChargerOrder",controller.GetChargerOrder)
 	charger.GET("/getSumOrder",controller.GetSumOrder)
 
+	cell := Engine.Group("/cell")
+	cell.GET("/getCell",controller.GetCell)
+
 	Engine.Run(":3000")
 
 }
