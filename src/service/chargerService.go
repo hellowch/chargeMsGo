@@ -85,7 +85,7 @@ func GetChargerOrder(ctx *gin.Context) models.Result {
 	chargerId := ctx.DefaultQuery("chargerId", "nil")
 
 	if userId != "nil" {
-		tx := database.Db.Debug().Raw("SELECT id,chargerid,userid,amount,time,length FROM charger_order WHERE userid = ?", userId).Find(&chargerOrder)
+		tx := database.Db.Debug().Raw("SELECT id,chargerid,userid,amount,time,length FROM charger_order WHERE userid = ? order by id desc", userId).Find(&chargerOrder)
 		if tx.Error != nil {
 			result.Code = http.StatusBadRequest
 			result.Message = "错误"
@@ -93,7 +93,7 @@ func GetChargerOrder(ctx *gin.Context) models.Result {
 			return result
 		}
 	}else if chargerId != "nil" {
-		tx := database.Db.Debug().Raw("SELECT id,chargerid,userid,amount,time,length FROM charger_order WHERE chargerid = ?", chargerId).Find(&chargerOrder)
+		tx := database.Db.Debug().Raw("SELECT id,chargerid,userid,amount,time,length FROM charger_order WHERE chargerid = ? order by id desc", chargerId).Find(&chargerOrder)
 		if tx.Error != nil {
 			result.Code = http.StatusBadRequest
 			result.Message = "错误"
@@ -113,5 +113,59 @@ func GetChargerOrder(ctx *gin.Context) models.Result {
 	result.Code = http.StatusOK
 	result.Message = "查询成功"
 	result.Data = resChargerOrder
+	return result
+}
+
+func GetSumOrder(ctx *gin.Context) models.Result {
+	//捕获异常
+	defer func() {
+		err := recover()
+		if err != nil {
+			result.Code = http.StatusBadRequest
+			result.Message = "错误1"
+			result.Data = err
+			return
+		}
+	}()
+	chargerOrder := make([]models.ChargerOrder,0)
+	userId := ctx.DefaultQuery("userId", "nil")
+	chargerId := ctx.DefaultQuery("chargerId", "nil")
+	useTime := ctx.DefaultQuery("useTime", "nil")
+
+	if userId != "nil" {
+		tx := database.Db.Debug().Raw("SELECT id,chargerid,userid,amount,time,length FROM charger_order WHERE DATE_FORMAT(time,'%Y-%m') = ? and userid = ? order by id desc", useTime,userId).Find(&chargerOrder)
+		if tx.Error != nil {
+			result.Code = http.StatusBadRequest
+			result.Message = "错误"
+			result.Data = tx.Error
+			return result
+		}
+	}else if chargerId != "nil" {
+		tx := database.Db.Debug().Raw("SELECT id,chargerid,userid,amount,time,length FROM charger_order WHERE DATE_FORMAT(time,'%Y-%m') = ? and chargerid = ? order by id desc", chargerId).Find(&chargerOrder)
+		if tx.Error != nil {
+			result.Code = http.StatusBadRequest
+			result.Message = "错误"
+			result.Data = tx.Error
+			return result
+		}
+	}
+	resChargerOrder := make([]models.ResChargerOrder,len(chargerOrder))
+	sumAmount := 0
+	for i:=0;i<len(chargerOrder);i++ {
+		resChargerOrder[i].Id = chargerOrder[i].Id
+		resChargerOrder[i].Chargerid = chargerOrder[i].Chargerid
+		resChargerOrder[i].Length = strconv.Itoa(chargerOrder[i].Length) + "分钟"
+		resChargerOrder[i].Userid = chargerOrder[i].Userid
+		resChargerOrder[i].Amount = chargerOrder[i].Amount + "元"
+		resChargerOrder[i].Time = chargerOrder[i].Time.Format("2006-01-02")
+		intAmount,_ := strconv.Atoi(chargerOrder[i].Amount)
+		sumAmount += intAmount
+	}
+	mapData := make(map[string]interface{})
+	mapData["chargerOrder"] = resChargerOrder
+	mapData["sumAmount"] = sumAmount
+	result.Code = http.StatusOK
+	result.Message = "查询成功"
+	result.Data = mapData
 	return result
 }

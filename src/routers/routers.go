@@ -25,6 +25,7 @@ func InitRouter() {
 	charger.GET("/getCharger",controller.GetCharger)
 	charger.GET("/getChargerDetails",controller.GetChargerDetails)
 	charger.GET("/getChargerOrder",controller.GetChargerOrder)
+	charger.GET("/getSumOrder",controller.GetSumOrder)
 
 	Engine.Run(":3000")
 
