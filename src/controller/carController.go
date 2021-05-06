@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-func GatUserCar(ctx *gin.Context)  {
-	result = service.GatUserCar(ctx)
+func GetUserCar(ctx *gin.Context)  {
+	result = service.GetUserCar(ctx)
 	ctx.JSON(http.StatusOK, result)
 }
 

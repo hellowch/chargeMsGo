@@ -5,25 +5,26 @@ import (
 )
 
 type Charger struct {
-	id		 int
-	address  string
-	distance int
-	usetype 	 string
-	details  string
+	Id		 int     `form:"id"          json:"id"         gorm:"column:id;primary_key"`
+	Address  string  `form:"address"     json:"address"    gorm:"column:address"`
+	Distance int     `form:"distance" 	 json:"distance"   gorm:"column:distance"`
+	Usetype  int 	 `form:"usetype" 	 json:"usetype"    gorm:"column:usetype"`
+	Details  string  `form:"details" 	 json:"details"    gorm:"column:details"`
 }
 
 type ChargerDetails struct {
-	id   		int
-	chargerid   int
-	details     string
-	time		time.Time
+	Id   		int
+	Chargerid   int
+	Details     string
+	Time		time.Time
 }
 
 type ChargerOrder struct {
-	id			int
-	chargerid	int
-	userid		int
-	amount      string
-	time		time.Time
-	length		int
+	Id			int
+	Chargerid	int
+	Userid		int
+	Amount      string
+	Time		time.Time
+	Length		int
 }
+

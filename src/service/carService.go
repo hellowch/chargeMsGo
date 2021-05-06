@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func GatUserCar(ctx *gin.Context) models.Result {
+func GetUserCar(ctx *gin.Context) models.Result {
 	//捕获异常
 	defer func() {
 		err := recover()
