@@ -3,11 +3,12 @@ package service
 import (
 	"chargeMsGo/src/database"
 	"chargeMsGo/src/models"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func CarUserCar(ctx *gin.Context) models.Result {
+func GatUserCar(ctx *gin.Context) models.Result {
 	//捕获异常
 	defer func() {
 		err := recover()
@@ -30,5 +31,32 @@ func CarUserCar(ctx *gin.Context) models.Result {
 	result.Code = http.StatusOK
 	result.Message = "查询成功"
 	result.Data = car
+	return result
+}
+
+func SetUserCar(ctx *gin.Context) models.Result {
+	//捕获异常
+	defer func() {
+		err := recover()
+		if err != nil {
+			result.Code = http.StatusBadRequest
+			result.Message = "错误1"
+			result.Data = err
+			return
+		}
+	}()
+	car := models.Car{}
+	ctx.ShouldBind(&car)
+	fmt.Println(car)
+	tx := database.Db.Exec("update car set carbrand=?,carmodel=?,buytime=? WHERE id=?",car.Carbrand,car.Carmodel,car.Buytime.Format("2006-01-02"),car.Id)
+	if tx.Error != nil {
+		result.Code = http.StatusBadRequest
+		result.Message = "错误"
+		result.Data = tx.Error
+		return result
+	}
+	result.Code = http.StatusOK
+	result.Message = "修改成功"
+	result.Data = tx.RowsAffected
 	return result
 }
