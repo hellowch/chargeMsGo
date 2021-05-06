@@ -21,7 +21,7 @@ func InitRouter() {
 	car.GET("/getUserCar",controller.GetUserCar)
 	car.POST("/setUserCar", controller.SetUserCar)
 
-	charger := Engine.Group("/Charger")
+	charger := Engine.Group("/charger")
 	charger.GET("/getCharger",controller.GetCharger)
 	charger.GET("/getChargerDetails",controller.GetChargerDetails)
 	charger.GET("/getChargerOrder",controller.GetChargerOrder)

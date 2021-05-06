@@ -19,6 +19,13 @@ type ChargerDetails struct {
 	Time		time.Time
 }
 
+type ResChargerDetails struct {
+	Id   		int
+	Chargerid   int
+	Details     string
+	Time		string
+}
+
 type ChargerOrder struct {
 	Id			int
 	Chargerid	int
@@ -26,5 +33,14 @@ type ChargerOrder struct {
 	Amount      string
 	Time		time.Time
 	Length		int
+}
+
+type ResChargerOrder struct {
+	Id			int
+	Chargerid	int
+	Userid		int
+	Amount      string
+	Time		string
+	Length		string
 }
 
