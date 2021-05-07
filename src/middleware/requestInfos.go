@@ -11,10 +11,10 @@ import (
 func RequestInfos() gin.HandlerFunc {
 	f := func(context *gin.Context) {
 		//请求前输出信息
-		path := context.FullPath()
-		method := context.Request.Method
-		fmt.Println("请求path:", path)
-		fmt.Println("请求method:", method)
+		//path := context.FullPath()
+		//method := context.Request.Method
+		//fmt.Println("请求path:", path)
+		//fmt.Println("请求method:", method)
 
 		//请求后输出的信息
 		context.Next() //表示请求后执行

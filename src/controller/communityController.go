@@ -20,3 +20,9 @@ func GetCarCommunity(ctx *gin.Context)  {
 	result = service.GetCarCommunity(ctx)
 	ctx.JSON(http.StatusOK, result)
 }
+
+func DelCommunity(ctx *gin.Context)  {
+	result = service.DelCommunity(ctx)
+	ctx.JSON(http.StatusOK, result)
+}
+

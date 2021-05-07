@@ -30,7 +30,7 @@ func GetCommunity(ctx *gin.Context) models.Result {
 			return result
 		}
 	}else if userid != "nil" {
-		tx := database.Db.Debug().Raw("SELECT id,userid,details,detailsid FROM community WHERE userid = ?", userid).Find(&resCommunity)
+		tx := database.Db.Debug().Raw("SELECT id,userid,details,detailsid FROM community WHERE userid = ? ORDER BY id DESC", userid).Find(&resCommunity)
 		if tx.Error != nil {
 			result.Code = http.StatusBadRequest
 			result.Message = "错误"
@@ -105,5 +105,30 @@ func GetCarCommunity(ctx *gin.Context) models.Result {
 	result.Code = http.StatusOK
 	result.Message = "查询成功"
 	result.Data = resCommunity
+	return result
+}
+
+func DelCommunity(ctx *gin.Context) models.Result  {
+	//捕获异常
+	defer func() {
+		err := recover()
+		if err != nil {
+			result.Code = http.StatusBadRequest
+			result.Message = "错误1"
+			result.Data = err
+			return
+		}
+	}()
+	comid := ctx.DefaultQuery("communityId", "nil")
+	tx := database.Db.Exec("DELETE FROM community WHERE id = ?",comid)
+	if tx.Error != nil {
+		result.Code = http.StatusBadRequest
+		result.Message = "错误"
+		result.Data = tx.Error
+		return result
+	}
+	result.Code = http.StatusOK
+	result.Message = "删除成功"
+	result.Data = tx.RowsAffected
 	return result
 }
