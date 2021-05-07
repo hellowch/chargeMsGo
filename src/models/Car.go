@@ -7,4 +7,5 @@ type Car struct {
 	Carbrand    string     `form:"carbrand" 	json:"carbrand"  	gorm:"column:carbrand"`
 	Carmodel    string 	   `form:"carmodel" 	json:"carmodel"  	gorm:"column:carmodel"`
 	Buytime     time.Time  `form:"buytime" 		json:"buytime"  	gorm:"column:buytime"`
+	Userid      int
 }

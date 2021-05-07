@@ -48,6 +48,9 @@ func UserRegister(ctx *gin.Context) models.Result {
 	}()
 	user := models.User{}
 	ctx.ShouldBind(&user)
+	if len(user.Avatar) == 0 {
+		user.Avatar = "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+	}
 	tx := database.Db.Exec("INSERT INTO user(name,username,password,phoneNumber,avatar) VALUES (?,?,?,?,?);",user.Name,user.Username,user.Password,user.PhoneNumber,user.Avatar)
 	if tx.Error != nil {
 		result.Code = http.StatusBadRequest

@@ -21,7 +21,7 @@ func GetUserCar(ctx *gin.Context) models.Result {
 	}()
 	car := models.Car{}
 	carId := ctx.DefaultQuery("carId", "nil")
-	tx := database.Db.Debug().Raw("SELECT id,carbrand,carmodel,buytime FROM car WHERE id = ?", carId).Scan(&car)
+	tx := database.Db.Debug().Raw("SELECT id,carbrand,carmodel,buytime,userid FROM car WHERE id = ?", carId).Scan(&car)
 	if tx.Error != nil {
 		result.Code = http.StatusBadRequest
 		result.Message = "错误"
@@ -48,7 +48,7 @@ func SetUserCar(ctx *gin.Context) models.Result {
 	car := models.Car{}
 	ctx.ShouldBind(&car)
 	fmt.Println(car)
-	tx := database.Db.Exec("update car set carbrand=?,carmodel=?,buytime=? WHERE id=?",car.Carbrand,car.Carmodel,car.Buytime.Format("2006-01-02"),car.Id)
+	tx := database.Db.Exec("update car set carbrand=?,carmodel=?,buytime=?,userid=? WHERE id=?",car.Carbrand,car.Carmodel,car.Buytime.Format("2006-01-02"),car.Userid,car.Id)
 	if tx.Error != nil {
 		result.Code = http.StatusBadRequest
 		result.Message = "错误"

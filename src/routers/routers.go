@@ -33,6 +33,7 @@ func InitRouter() {
 	community := Engine.Group("/community")
 	community.GET("/getCommunity", controller.GetCommunity)
 	community.POST("/setCommunity", controller.SetCommunity)
+	community.GET("/getCarCommunity", controller.GetCarCommunity)
 
 	Engine.Run(":3000")
 
