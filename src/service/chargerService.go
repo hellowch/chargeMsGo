@@ -3,6 +3,7 @@ package service
 import (
 	"chargeMsGo/src/database"
 	"chargeMsGo/src/models"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -21,12 +22,31 @@ func GetCharger(ctx *gin.Context) models.Result {
 	}()
 	charger := make([]models.Charger,0)
 	id := ctx.DefaultQuery("id", "nil")
-	tx := database.Db.Debug().Raw("SELECT id,address,distance,usetype,details FROM charger WHERE id = ?", id).Find(&charger)
-	if tx.Error != nil {
-		result.Code = http.StatusBadRequest
-		result.Message = "错误"
-		result.Data = tx.Error
-		return result
+	addLike := ctx.DefaultQuery("addLike", "nil")
+	if id != "nil" {
+		tx := database.Db.Debug().Raw("SELECT id,address,distance,usetype,details FROM charger WHERE id = ? ORDER BY distance", id).Find(&charger)
+		if tx.Error != nil {
+			result.Code = http.StatusBadRequest
+			result.Message = "错误"
+			result.Data = tx.Error
+			return result
+		}
+	}else if addLike != "nil" {
+		tx := database.Db.Debug().Where(fmt.Sprintf("address LIKE %q",("%"+addLike+"%"))+"ORDER BY distance").Find(&charger)
+		if tx.Error != nil {
+			result.Code = http.StatusBadRequest
+			result.Message = "错误"
+			result.Data = tx.Error
+			return result
+		}
+	} else {
+		tx := database.Db.Debug().Raw("SELECT id,address,distance,usetype,details FROM charger ORDER BY distance").Find(&charger)
+		if tx.Error != nil {
+			result.Code = http.StatusBadRequest
+			result.Message = "错误"
+			result.Data = tx.Error
+			return result
+		}
 	}
 	result.Code = http.StatusOK
 	result.Message = "查询成功"
