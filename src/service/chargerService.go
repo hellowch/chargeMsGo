@@ -24,7 +24,7 @@ func GetCharger(ctx *gin.Context) models.Result {
 	id := ctx.DefaultQuery("id", "nil")
 	addLike := ctx.DefaultQuery("addLike", "nil")
 	if id != "nil" {
-		tx := database.Db.Debug().Raw("SELECT id,address,distance,usetype,details FROM charger WHERE id = ? ORDER BY distance", id).Find(&charger)
+		tx := database.Db.Debug().Raw("SELECT id,address,distance,usetype,details,bdlng,bdlab FROM charger WHERE id = ? ORDER BY distance", id).Find(&charger)
 		if tx.Error != nil {
 			result.Code = http.StatusBadRequest
 			result.Message = "错误"
@@ -40,7 +40,7 @@ func GetCharger(ctx *gin.Context) models.Result {
 			return result
 		}
 	} else {
-		tx := database.Db.Debug().Raw("SELECT id,address,distance,usetype,details FROM charger ORDER BY distance").Find(&charger)
+		tx := database.Db.Debug().Raw("SELECT id,address,distance,usetype,details,bdlng,bdlab FROM charger ORDER BY distance").Find(&charger)
 		if tx.Error != nil {
 			result.Code = http.StatusBadRequest
 			result.Message = "错误"
