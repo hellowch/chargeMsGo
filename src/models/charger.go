@@ -31,12 +31,12 @@ type ResChargerDetails struct {
 }
 
 type ChargerOrder struct {
-	Id			int
-	Chargerid	int
-	Userid		int
-	Amount      string
-	Time		time.Time
-	Length		int
+	Id			int			`form:"id"`
+	Chargerid	int			`form:"chargerid"`
+	Userid		int			`form:"userid"`
+	Amount      string		`form:"amount"`
+	Time		time.Time	`form:"time"`
+	Length		int			`form:"length"`
 }
 
 type ResChargerOrder struct {

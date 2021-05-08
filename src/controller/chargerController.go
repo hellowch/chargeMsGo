@@ -25,3 +25,8 @@ func GetSumOrder(ctx *gin.Context)  {
 	result = service.GetSumOrder(ctx)
 	ctx.JSON(http.StatusOK, result)
 }
+
+func SetChargerOrder(ctx *gin.Context)  {
+	result = service.SetChargerOrder(ctx)
+	ctx.JSON(http.StatusOK, result)
+}

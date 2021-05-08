@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 func GetCharger(ctx *gin.Context) models.Result {
@@ -186,4 +187,31 @@ func GetSumOrder(ctx *gin.Context) models.Result {
 	result.Message = "查询成功"
 	result.Data = mapData
 	return result
+}
+
+func SetChargerOrder(ctx *gin.Context) models.Result {
+	//捕获异常
+	defer func() {
+		err := recover()
+		if err != nil {
+			result.Code = http.StatusBadRequest
+			result.Message = "错误1"
+			result.Data = err
+			return
+		}
+	}()
+	chargerOrder := models.ChargerOrder{}
+	ctx.ShouldBind(&chargerOrder)
+	tx := database.Db.Exec("INSERT INTO charger_order(chargerid,userid,amount,time,length) VALUES (?,?,?,?,?);",chargerOrder.Chargerid,chargerOrder.Userid,chargerOrder.Amount,time.Now(),chargerOrder.Length)
+	if tx.Error != nil {
+		result.Code = http.StatusBadRequest
+		result.Message = "错误"
+		result.Data = tx.Error
+		return result
+	}
+	result.Code = http.StatusOK
+	result.Message = "插入成功"
+	result.Data = tx.RowsAffected
+	return result
+
 }
