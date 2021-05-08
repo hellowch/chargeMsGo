@@ -67,7 +67,7 @@ func GetChargerDetails(ctx *gin.Context) models.Result {
 	}()
 	chargerDetails := make([]models.ChargerDetails,0)
 	chargerId := ctx.DefaultQuery("chargerId", "nil")
-	tx := database.Db.Debug().Raw("SELECT id,chargerid,details,time FROM charger_details WHERE chargerid = ?", chargerId).Find(&chargerDetails)
+	tx := database.Db.Debug().Raw("SELECT id,chargerid,userid,details,time FROM charger_details WHERE chargerid = ?", chargerId).Find(&chargerDetails)
 	if tx.Error != nil {
 		result.Code = http.StatusBadRequest
 		result.Message = "错误"

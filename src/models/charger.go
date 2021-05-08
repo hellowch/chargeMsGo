@@ -15,13 +15,15 @@ type Charger struct {
 type ChargerDetails struct {
 	Id   		int
 	Chargerid   int
-	Details     string
+	userid		int
+ 	Details     string
 	Time		time.Time
 }
 
 type ResChargerDetails struct {
 	Id   		int
 	Chargerid   int
+	userid  	int
 	Details     string
 	Time		string
 }
