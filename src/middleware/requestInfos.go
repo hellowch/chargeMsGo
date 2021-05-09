@@ -3,6 +3,7 @@ package middleware
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -18,7 +19,8 @@ func RequestInfos() gin.HandlerFunc {
 
 		//请求后输出的信息
 		context.Next() //表示请求后执行
-		fmt.Println("状态码:", context.Writer.Status())
+		log.Println("状态码:", context.Writer.Status())
+		//fmt.Println("状态码:", context.Writer.Status())
 	}
 	return f
 }
