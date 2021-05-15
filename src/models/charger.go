@@ -9,6 +9,7 @@ type Charger struct {
 	Address  string  `form:"address"     json:"address"    gorm:"column:address"`
 	Distance int     `form:"distance" 	 json:"distance"   gorm:"column:distance"`
 	Usetype  int 	 `form:"usetype" 	 json:"usetype"    gorm:"column:usetype"`
+	Value    string  `form:"value" 	     json:"value"      gorm:"column:value"`
 	Details  string  `form:"details" 	 json:"details"    gorm:"column:details"`
 	Bdlng	 string  `form:"bdlng" 		 json:"bdlng"      gorm:"column:bdlng"`
 	Bdlab	 string  `form:"bdlab" 	 	 json:"bdlab"      gorm:"column:bdlab"`
