@@ -19,7 +19,7 @@ func RequestInfos() gin.HandlerFunc {
 
 		//请求后输出的信息
 		context.Next() //表示请求后执行
-		log.Println("状态码:", context.Writer.Status())
+		log.Println("log状态码:", context.Writer.Status())
 		//fmt.Println("状态码:", context.Writer.Status())
 	}
 	return f
